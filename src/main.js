@@ -11,7 +11,7 @@ import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { AfterimagePass } from "three/addons/postprocessing/AfterimagePass.js";
 
 let currentSongIndex = 0;
-
+const BASE = import.meta.env.BASE_URL;
 const songs = [
   {
     title: "Stay Wilding",
