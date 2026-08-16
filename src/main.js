@@ -16,37 +16,37 @@ const songs = [
   {
     title: "Stay Wilding",
     artist: "annasalty",
-    file: "${BASE}music/stay-wilding.mp3"
+    file: `${BASE}music/stay-wilding.mp3`
   },
 
   {
     title: "In Light of Emotions",
     artist: "annasalty",
-    file: "${BASE}music/in-light-of-emotions.mp3"
+    file: `${BASE}music/in-light-of-emotions.mp3`
   },
 
   {
     title: "Moo",
     artist: "annasalty",
-    file: "${BASE}music/Moo.mp3"
+    file: `${BASE}music/Moo.mp3`
   },
 
   {
     title: "Cloud Walk",
     artist: "annasalty",
-    file: "${BASE}music/cloud-walk.mp3"
+    file: `${BASE}music/cloud-walk.mp3`
   },
 
   {
     title: "gtr",
     artist: "annasalty",
-    file: "${BASE}music/gtr.mp3"
+    file: `${BASE}music/gtr.mp3`
   },
 
   {
     title: "L.A. 2",
     artist: "annasalty",
-    file: "${BASE}music/LA2.mp3"
+    file: `${BASE}music/LA2.mp3`
   },
 ];
 
