@@ -10,6 +10,65 @@ import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { AfterimagePass } from "three/addons/postprocessing/AfterimagePass.js";
 
+let currentSongIndex = 0;
+
+const fiberAmountSlider =
+  document.querySelector("#fiberAmount");
+
+const fiberAmountValue =
+  document.querySelector("#fiberAmountValue");
+
+  if (
+  fiberAmountSlider &&
+  fiberAmountValue
+) {
+  fiberAmountSlider.addEventListener(
+    "input",
+    () => {
+      visibleFiberCount =
+        Number(
+          fiberAmountSlider.value
+        );
+
+      fiberAmountValue.textContent =
+        visibleFiberCount;
+
+      fibers.forEach(
+        (fiber, index) => {
+          fiber.line.visible =
+            index < visibleFiberCount;
+        }
+      );
+    }
+  );
+}
+
+const waveAmplitudeSlider =
+  document.querySelector("#waveAmplitude");
+
+const waveAmplitudeValue =
+  document.querySelector("#waveAmplitudeValue");
+
+let waveAmplitudeMultiplier = 1;
+
+if (
+  waveAmplitudeSlider &&
+  waveAmplitudeValue
+) {
+  waveAmplitudeSlider.addEventListener(
+    "input",
+    () => {
+      waveAmplitudeMultiplier =
+        Number(
+          waveAmplitudeSlider.value
+        );
+
+      waveAmplitudeValue.textContent =
+        `${waveAmplitudeMultiplier.toFixed(1)}×`;
+    }
+  );
+}
+
 const audioUpload =
   document.querySelector("#audioUpload");
 
@@ -86,8 +145,101 @@ audioUpload.addEventListener(
   }
 );
 
-let currentSongIndex = 0;
+const waveSpeedSlider =
+  document.querySelector("#waveSpeed");
+
+const waveSpeedValue =
+  document.querySelector("#waveSpeedValue");
+
+let waveSpeedMultiplier = 1;
+
+waveSpeedSlider.addEventListener(
+  "input",
+  () => {
+    waveSpeedMultiplier =
+      Number(waveSpeedSlider.value);
+
+    waveSpeedValue.textContent =
+      `${waveSpeedMultiplier.toFixed(1)}×`;
+  }
+);
+
+const customizationButton =
+  document.querySelector("#customizationButton");
+
+const customizationMenu =
+  document.querySelector("#customizationMenu");
+
+const customizationArrow =
+  document.querySelector("#customizationArrow");
+
+
+const particleSpeedSlider =
+  document.querySelector("#particleSpeed");
+
+const particleSpeedValue =
+  document.querySelector("#particleSpeedValue");
+
+
+const particleAmountSlider =
+  document.querySelector("#particleAmount");
+
+const particleAmountValue =
+  document.querySelector("#particleAmountValue");
+
+
+let particleSpeedMultiplier = 1;
+let visibleParticleCount = 170;
+
+particleAmountSlider.addEventListener(
+  "input",
+  () => {
+
+    visibleParticleCount =
+      Number(
+        particleAmountSlider.value
+      );
+
+    particleAmountValue.textContent =
+      visibleParticleCount;
+
+    particleGeometry.setDrawRange(
+      0,
+      visibleParticleCount
+    );
+  }
+);
+
+customizationButton.addEventListener(
+  "click",
+  () => {
+
+    const isOpen =
+      customizationMenu.classList.toggle(
+        "open"
+      );
+
+    customizationArrow.textContent =
+      isOpen ? "▼" : "▲";
+  }
+);
+
+particleSpeedSlider.addEventListener(
+  "input",
+  () => {
+
+    particleSpeedMultiplier =
+      Number(
+        particleSpeedSlider.value
+      );
+
+    particleSpeedValue.textContent =
+      `${particleSpeedMultiplier.toFixed(1)}×`;
+  }
+);
+
 const BASE = import.meta.env.BASE_URL;
+
 const songs = [
   {
     title: "Stay Wilding",
@@ -123,13 +275,13 @@ const songs = [
     title: "L.A. 2",
     artist: "annasalty",
     file: `${BASE}music/LA2.mp3`
-  },
+  }
 ];
 
 
-/* =========================================================
+/* 
    UTILITIES
-========================================================= */
+ */
 
 const TAU = Math.PI * 2;
 
@@ -254,7 +406,9 @@ scene.add(fiberGroup);
   Lower this if performance becomes an issue.
 */
 
-const FIBER_COUNT = 24;
+const MAX_FIBER_COUNT = 60;
+
+let visibleFiberCount = 24;
 
 
 /*
@@ -301,7 +455,7 @@ function createGuideLine(yPosition) {
 TRUNK_X_POSITIONS.forEach(createGuideLine);
 
 
-for (let i = 0; i < FIBER_COUNT; i++) {
+for (let i = 0; i < MAX_FIBER_COUNT; i++) {
   const positions = new Float32Array(POINTS_PER_FIBER * 3);
 
   const geometry = new LineGeometry();
@@ -353,20 +507,23 @@ for (let i = 0; i < FIBER_COUNT; i++) {
     branchTightness: random(0.9, 1.35),
 
     hueOffset:
-      i / FIBER_COUNT + random(-0.06, 0.06),
+      i / MAX_FIBER_COUNT + random(-0.06, 0.06),
 
     baseWidth: random(0.25, 0.55)
   });
 
   fiberGroup.add(line);
+
+  line.visible =
+  i < visibleFiberCount;
 }
 
 
-/* =========================================================
+/* 
    ATMOSPHERIC PARTICLES
-========================================================= */
+ */
 
-const PARTICLE_COUNT = 170;
+const PARTICLE_COUNT = 800;
 
 const particlePositions =
   new Float32Array(
@@ -416,6 +573,11 @@ for (let i = 0; i < PARTICLE_COUNT; i++) {
 const particleGeometry =
   new THREE.BufferGeometry();
 
+  particleGeometry.setDrawRange(
+  0,
+  PARTICLE_COUNT
+);
+
 particleGeometry.setAttribute(
   "position",
   new THREE.BufferAttribute(
@@ -423,6 +585,8 @@ particleGeometry.setAttribute(
     3
   )
 );
+
+
 
 
 const particleMaterial =
@@ -829,7 +993,7 @@ function updateFibers(time) {
   fiberGroup.rotation.z = Math.PI / 2 +
   random(-shakeAmount, shakeAmount) * 0.01;
 
-  for (let fiberIndex = 0; fiberIndex < fibers.length; fiberIndex++) {
+  for (let fiberIndex = 0; fiberIndex < visibleFiberCount; fiberIndex++) {
     const fiber = fibers[fiberIndex];
     const positions = fiber.positions;
 
@@ -861,22 +1025,26 @@ function updateFibers(time) {
       */
 
       const idleWave =
-        Math.sin(
-          p * TAU * fiber.waveFrequency +
-          time * 0.35 +
-          fiber.phase
-        ) * 0.035;
+  Math.sin(
+    p * TAU * fiber.waveFrequency +
+    time * 0.35 * waveSpeedMultiplier +
+    fiber.phase
+  ) * 0.035;
 
       /*
         Main smooth wave.
       */
 
       const mainWave =
-        Math.sin(
-          p * TAU * (0.95 + fiber.waveFrequency) +
-          time * fiber.waveSpeed * fiber.waveDirection * (0.7 + bassForce * 3.4) +
-          fiber.phase
-        );
+  Math.sin(
+    p * TAU * (0.95 + fiber.waveFrequency) +
+    time *
+      fiber.waveSpeed *
+      waveSpeedMultiplier *
+      fiber.waveDirection *
+      (0.7 + bassForce * 3.4) +
+    fiber.phase
+  );
 
       /*
         Secondary wave only becomes more visible on heavy bass.
@@ -885,11 +1053,13 @@ function updateFibers(time) {
       */
 
       const detailWave =
-        Math.sin(
-          p * TAU * (1.5 + bassForce * 2.2) -
-          time * (0.7 + bassForce * 1.8) +
-          fiber.phase * 1.5
-        );
+  Math.sin(
+    p * TAU * (1.5 + bassForce * 2.2) -
+    time *
+      waveSpeedMultiplier *
+      (0.7 + bassForce * 1.8) +
+    fiber.phase * 1.5
+  );
 
       /*
         This is the outward branching amount.
@@ -907,19 +1077,21 @@ function updateFibers(time) {
       x += fiber.branchDirection * branchReach;
 
       x +=
-        mainWave *
-        (0.025 + bassForce * 0.09 + beatPulse * 0.04) *
-        branchEnvelope;
+  mainWave *
+  (0.025 + bassForce * 0.09 + beatPulse * 0.04) *
+  waveAmplitudeMultiplier *
+  branchEnvelope;
 
       x +=
-        detailWave *
-        bassForce *
-        bassForce *
-        0.42 *
-        branchEnvelope;
+  detailWave *
+  bassForce *
+  bassForce *
+  0.42 *
+  waveAmplitudeMultiplier *
+  branchEnvelope;
 
       x +=
-        Math.sin(time * 0.55 + fiber.phase) *
+        Math.sin(time * 0.55 * waveSpeedMultiplier + fiber.phase) *
         0.04 *
         branchEnvelope;
 
@@ -930,7 +1102,7 @@ function updateFibers(time) {
       let z =
         Math.cos(
           p * TAU * (1.1 + fiber.waveFrequency * 0.6) -
-          time * 0.9 +
+          time * 0.9 * waveSpeedMultiplier +
           fiber.phase
         ) *
         fiber.depthAmplitude *
@@ -1027,24 +1199,28 @@ function updateParticles(
 
 
     particlePositions[index] +=
-      particleVelocities[index] *
-      deltaTime *
-      movementMultiplier;
+  particleVelocities[index] *
+  deltaTime *
+  movementMultiplier *
+  particleSpeedMultiplier;
 
 
     particlePositions[
-      index + 1
-    ] +=
-      Math.sin(
-        time * 0.4 +
-        particlePhases[i]
-      ) *
-      deltaTime *
-      0.025 *
-      (
-        1 +
-        mids * 5
-      );
+  index + 1
+] +=
+  Math.sin(
+    time *
+      0.4 *
+      particleSpeedMultiplier +
+    particlePhases[i]
+  ) *
+  deltaTime *
+  0.025 *
+  (
+    1 +
+    mids * 5
+  ) *
+  particleSpeedMultiplier;
 
 
     /*

@@ -36,6 +36,148 @@
 
 </div>
 
+<div class="customization-panel">
+
+  <button
+    id="customizationButton"
+    class="customization-button"
+    type="button"
+  >
+    <span>Customization</span>
+    <span id="customizationArrow">▲</span>
+  </button>
+
+
+  <div
+    id="customizationMenu"
+    class="customization-menu"
+  >
+
+    <!-- WAVE SPEED -->
+
+    <div class="custom-control">
+      <div class="custom-control__header">
+        <label for="waveSpeed">
+          Wave Speed
+        </label>
+
+        <span id="waveSpeedValue">
+          1.0×
+        </span>
+      </div>
+
+      <input
+        id="waveSpeed"
+        type="range"
+        min="0.2"
+        max="2"
+        step="0.05"
+        value="1"
+      >
+    </div>
+
+
+    <!-- WAVE AMPLITUDE -->
+
+    <div class="custom-control">
+      <div class="custom-control__header">
+        <label for="waveAmplitude">
+          Wave Amplitude
+        </label>
+
+        <span id="waveAmplitudeValue">
+          1.0×
+        </span>
+      </div>
+
+      <input
+        id="waveAmplitude"
+        type="range"
+        min="0"
+        max="2"
+        step="0.05"
+        value="1"
+      >
+    </div>
+
+
+    <!-- PARTICLE SPEED -->
+
+    <div class="custom-control">
+      <div class="custom-control__header">
+        <label for="particleSpeed">
+          Particle Speed
+        </label>
+
+        <span id="particleSpeedValue">
+          1.0×
+        </span>
+      </div>
+
+      <input
+        id="particleSpeed"
+        type="range"
+        min="0"
+        max="3"
+        step="0.1"
+        value="1"
+      >
+    </div>
+
+
+    <!-- PARTICLE AMOUNT -->
+
+    <div class="custom-control">
+      <div class="custom-control__header">
+        <label for="particleAmount">
+          Particle Amount
+        </label>
+
+        <span id="particleAmountValue">
+          170
+        </span>
+      </div>
+
+      <input
+        id="particleAmount"
+        type="range"
+        min="0"
+        max="800"
+        step="5"
+        value="170"
+      >
+    </div>
+
+
+    <!-- FIBER AMOUNT -->
+
+    <div class="custom-control">
+      <div class="custom-control__header">
+        <label for="fiberAmount">
+          Fiber Amount
+        </label>
+
+        <span id="fiberAmountValue">
+          24
+        </span>
+      </div>
+
+      <input
+        id="fiberAmount"
+        type="range"
+        min="2"
+        max="60"
+        step="2"
+        value="24"
+      >
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
 
   <div class="player">
 
@@ -65,7 +207,6 @@
     </div>
 
   </div>
-
 
   <audio
     id="audio"
