@@ -12,6 +12,29 @@ import { AfterimagePass } from "three/addons/postprocessing/AfterimagePass.js";
 
 let currentSongIndex = 0;
 
+const fullscreenButton =
+  document.querySelector("#fullscreenButton");
+
+if (fullscreenButton) {
+  fullscreenButton.addEventListener(
+    "click",
+    async () => {
+      try {
+        if (!document.fullscreenElement) {
+          await document.documentElement.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (error) {
+        console.error(
+          "Fullscreen failed:",
+          error
+        );
+      }
+    }
+  );
+}
+
 const fiberAmountSlider =
   document.querySelector("#fiberAmount");
 
