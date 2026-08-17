@@ -10,6 +10,82 @@ import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { AfterimagePass } from "three/addons/postprocessing/AfterimagePass.js";
 
+const audioUpload =
+  document.querySelector("#audioUpload");
+
+let uploadedAudioURL = null;
+
+audioUpload.addEventListener(
+  "change",
+  async (event) => {
+
+    const file =
+      event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    /*
+      Clean up the previous temporary URL.
+    */
+
+    if (uploadedAudioURL) {
+      URL.revokeObjectURL(
+        uploadedAudioURL
+      );
+    }
+
+    /*
+      Create a temporary URL pointing to
+      the user's local audio file.
+    */
+
+    uploadedAudioURL =
+      URL.createObjectURL(file);
+
+    audio.pause();
+
+    audio.src =
+      uploadedAudioURL;
+
+    audio.currentTime = 0;
+
+    audio.load();
+
+    /*
+      Display the filename as the selected track.
+    */
+
+    menuButton.textContent =
+      file.name.replace(
+        /\.[^/.]+$/,
+        ""
+      );
+
+    progress.style.transform =
+      "translateY(-50%) scaleX(0)";
+
+    timeDisplay.textContent =
+      "0:00 / 0:00";
+
+
+    try {
+
+      await initializeAudio();
+
+      await audio.play();
+
+    } catch (error) {
+
+      console.error(
+        "Unable to play uploaded audio:",
+        error
+      );
+    }
+  }
+);
+
 let currentSongIndex = 0;
 const BASE = import.meta.env.BASE_URL;
 const songs = [
