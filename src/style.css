@@ -34,9 +34,7 @@ canvas {
   height: 100%;
 }
 
-/* ========================================
-   PLAYER
-======================================== */
+/* PLAYER */
 
 .player {
   position: fixed;
@@ -54,9 +52,7 @@ canvas {
   pointer-events: none;
 }
 
-/* ========================================
-   PLAY BUTTON
-======================================== */
+/* PLAY BUTTON */
 
 .play-button {
   width: 34px;
@@ -99,9 +95,90 @@ canvas {
   transform: scale(0.92);
 }
 
-/* ========================================
+/* 
+   UPLOAD YOUR OWN SONG
+ */
+
+.upload-section {
+  position: fixed;
+
+  top: 135px;
+  left: 28px;
+
+  z-index: 30;
+}
+
+
+.upload-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 230px;
+
+  padding: 14px 18px;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  background: rgba(10, 10, 10, 0.82);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.28);
+
+  border-radius: 10px;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.4);
+
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+
+.upload-button::before {
+  content: "+";
+
+  margin-right: 9px;
+
+  font-size: 16px;
+  font-weight: 300;
+}
+
+
+.upload-button:hover {
+  background:
+    rgba(25, 25, 25, 0.95);
+
+  border-color:
+    rgba(255, 255, 255, 0.6);
+
+  transform:
+    translateY(-1px);
+}
+
+
+.upload-button:active {
+  transform:
+    scale(0.98);
+}
+
+/* 
    TIMELINE
-======================================== */
+ */
 
 .timeline {
   position: relative;
@@ -150,9 +227,9 @@ canvas {
   pointer-events: none;
 }
 
-/* ========================================
+/* 
    TIME
-======================================== */
+ */
 
 .time-display {
   min-width: 82px;
@@ -183,9 +260,9 @@ canvas {
   }
 }
 
-/* ========================================
+/* 
    SONG MENU
-======================================== */
+ */
 
 .song-menu {
   position: fixed;
@@ -199,9 +276,9 @@ canvas {
 }
 
 
-/* ========================================
+/* 
    MENU BUTTON
-======================================== */
+ */
 
 .menu-button {
   position: relative;
@@ -298,9 +375,9 @@ canvas {
 }
 
 
-/* ========================================
+/* 
    SONG LIST
-======================================== */
+ */
 
 .song-list {
   position: absolute;
@@ -358,9 +435,9 @@ canvas {
 }
 
 
-/* ========================================
+/* 
    SONG ITEM
-======================================== */
+ */
 
 .song-item {
   position: relative;
@@ -442,9 +519,9 @@ canvas {
 }
 
 
-/* ========================================
+/* 
    TEXT
-======================================== */
+ */
 
 .song-title {
   color:
